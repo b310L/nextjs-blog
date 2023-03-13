@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-teal-700;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-teal-900; 
+  }
+      *{
+        // @apply 
+      }
+      .block_Todo{
+        @apply block relative  
+        bg-gradient-to-r bg-orange-300
+        from-red-700 via-rose-600 to-rose-700   
+       before:content-[''] before:absolute before:left-0 
+       before:bottom-0 before:right-0 before:top-0  
+       before:opacity-100  before:transition-opacity 
+       transition-all before:duration-500  ease-in-out 
+       hover:before:opacity-0 py-2 px-4 text-white 
+       font-semibold before:-z-10 rounded-[5px] shadow-md
+      before:text-white before:bg-gradient-to-bl
+       before:from-rose-500 before:via-rose-600
+       before:to-red-500 before:rounded-[5px] 
+      }
+
+     .modal{
+      
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      @apply absolute bg-red-600 w-1/2 h-1/2 z-50 rounded-xl 
+        my-auto
+     }
+    .my-button {
+        
+        
+        z-index: 4;
+        @apply block relative  bg-gradient-to-r  align-middle px-4 
+         from-red-500 via-rose-500  to-red-600  
+        before:content-[''] before:absolute before:left-0
+         before:bottom-0 before:right-0 before:top-0  
+         before:opacity-100  before:transition-opacity 
+         before:duration-500  ease-in-out hover:before:opacity-0
+         text-white font-semibold before:-z-10
+         rounded-sm shadow-md before:text-white
+         before:bg-gradient-to-tr before:from-red-700
+          before:via-red-600 before:to-rose-700
+           before:rounded-sm
+           ;
+    }
+    .teal-block-big {
+      z-index: 4;
+      @apply block relative  drop-shadow-lg 
+       bg-gradient-to-bl from-kerem-700 via-red-500 to-rose-700  
+      before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  
+       before:opacity-100  before:transition-all 
+       before:duration-500  ease-in-out hover:before:opacity-0
+        before:-z-10 filter backdrop-blur-[50px]
+ hover:backdrop-blur-md backdrop-brightness-150   duration-500
+       before:bg-gradient-to-bl before:from-kerem-700 before:via-red-600 before:to-rose-700
+       
+         before:rounded-sm text-white 
+         bg-teal-500 rounded-sm  p-2
+          mb-2  mx-1 ;
+  }
+  .teal-block {
+    z-index: 4;
+    @apply block relative  drop-shadow-lg 
+     bg-gradient-to-l from-kerem-700  to-rose-600   
+    before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  
+     before:opacity-100  before:transition-all 
+     before:duration-500  ease-in-out hover:before:opacity-0
+      before:-z-10
+      font-semibold   duration-500
+     before:bg-gradient-to-l before:from-kerem-700  before:to-rose-500
+     
+       before:rounded-sm  
+       rounded-sm  p-2
+        my-2  mx-1 ;
+}
+    input,textarea{
+      // outline: 1px solid;
+      
+      @apply  h-12 
+      border-2 
+        border-gray-400  
+         outline-none focus:border-red-400
+          p-1 my-2
+         before:content-[attr(placeholder)] 
+         before:text-xs  before:mt-[2px] before:mr-1
+       before:text-rose-600 before:font-bold focus:outline-none
+       rounded-sm 
+         ;
+// // {
+// //     position: absolute;
+// //     left: 5px;
+// //     top: 3px;
+// //     content: attr(placeholder);
+// //     pointer-events: none;
+// //     opacity: 0.6;
+// }
+    }
+    textarea{
+      @apply rounded-sm border-[1.9px] border-gray-400   focus:border-pink-500
+    }
+
+  //   
+  .checkToDO {
+      @apply  relative invisible  after:inline-block before:inline-block 
+      after:cursor-pointer w-12 h-12
+      after:visible before:visible
+      before:absolute    
+      before:rounded-full   
+      before:text-center before:right-0 before:left-0 before:top-0 before:bottom-0
+      before:border-2 
+    before:border-rose-500
+    after:checked:bg-transparent
+    after:checked:absolute
+    after:checked:top-0
+    after:checked:bottom-0
+    after:checked:left-0
+    after:checked:right-0 before:content-['_'] 
+    after:checked:content-['\2713']
+    after:checked:flex          
+    after:checked:leading-6
+    after:checked:justify-center
+    after:checked:text-[65px]
+  after:checked:text-red-500
+    
+    after:checked:backdrop-filter 
+    after:backdrop-blur-sm
+    after:checked:backdrop-blur-3xl
+    after:z-[50]
+    after:checked:rounded-full  
+    before:-m-0.5 before:cursor-pointer
+    }
+  // after:m-2
+  // after:checked:animate-wiggle
+//transform-gpu
+    // after:checked:bg-white 
+    //  
+    
+    label{
+       
+       @apply   focus:font-normal 
+       duration-300 text-sm font-normal 
+       select-none 
+       group-focus-within:text-xs
+        group-focus-within:font-bold
+       rounded-md  text-gray-500  
+       placeholder-shown:text-purple-700
+       [&:not(focus)]:peer-valid:text-xs
+       [&:not(focus)]:peer-valid:font-bold
+       [&:not(focus)]:peer-valid:opacity-100
+       [&:not(focus)]:valid:text-gray-700
+       peer-valid:z-20
+       peer-focus:z-20
+       peer-valid:text-gray-300
+       peer-focus:bg-white
+       peer-focus:text-red-500 
+         peer-focus:opacity-100
+         peer-focus:font-bold
+         peer-valid:peer-focus:font-bold
+         peer-valid:peer-focus:opacity-100
+         peer-valid:bg-white
+       [&:not(focus)]:peer-valid:-translate-y-5 
+       peer-invalid:after:content-['_*_']
+       after:mr-1
+       before:mr-1
+       group-focus-within:-translate-y-5
+       mt-5 mx-2;
+    }
+  }
+  
+  // change gradient background
+  // @apply block relative  bg-gradient-to-r from-rose-500 to-red-500   
+  //       before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  before:opacity-100  before:duration-1000  ease-in-out hover:before:opacity-0
+  //       py-2 px-4 text-white font-semibold
+  //        rounded-[5px] shadow-md before:text-white
+  //        before:bg-gradient-to-r before:from-rose-600 before:via-rose-600 before:to-red-600 before:rounded-[5px]
+  //        ;
+
+  // button hover gradiant
+  // @apply block relative  bg-gradient-to-tr from-orange-600 via-rose-600 to-red-600   
+  //       before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  before:opacity-100  before:duration-1000  ease-in-out hover:before:opacity-0
+  //       py-2 px-4 text-white font-semibold before:-z-10
+  //        rounded-[5px] shadow-md before:text-white
+  //        before:bg-gradient-to-bl before:from-rose-500 before:via-rose-600 before:to-red-600 before:rounded-[5px]
+  //        ;
