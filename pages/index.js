@@ -17,7 +17,7 @@ export async function getStaticProps() {
 export default function Home({allPostsData }) {
   return (
     <>
- 
+  <h1> main page branch test</h1>
     {/* console.log(allPostsData) */}
     <Layout home>
       <Head>
