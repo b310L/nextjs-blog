@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import { tr } from 'date-fns/locale'
 import MilisecondConverterToMinAndSec from './MilisecondConverterToMinAndSec'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdExpandMore, MdOutlineCancel } from 'react-icons/md'
 import { BiUpArrowAlt } from 'react-icons/bi'
 import { FaBell } from 'react-icons/fa'
-=======
-import { tr } from "date-fns/locale";
-import React, { useEffect, useRef, useState } from "react";
-import { MdExpandMore, MdOutlineCancel } from "react-icons/md";
-import { FaBell } from "react-icons/fa";
->>>>>>> parent of 36a2af3 (todo edit)
 
 import Lottie from "lottie-react";
 import TickLottie from '../public/Lottie/Tick.json';
@@ -28,7 +21,6 @@ const updateState = (item) => {
 };
 
 const MyTodo = () => {
-<<<<<<< HEAD
   // const [offset, setOffset] = useState(0);
   //   useEffect(() => {
         //       const onScroll = () => setOffset(window.pageYOffset);
@@ -49,37 +41,22 @@ const MyTodo = () => {
   const inpEditText = useRef()
   const inpEditTime = useRef()
   const inpEditDate = useRef()
-=======
-  const checkbox = useRef();
-
-  const pLongText = useRef();
-
-  const inpTitle = useRef();
-  const inpText = useRef();
-  const inpTime = useRef();
-  const inpDate = useRef();
-  const inpEditTitle = useRef();
-  const inpEditText = useRef();
-  const inpEditTime = useRef();
-  const inpEditDate = useRef();
->>>>>>> parent of 36a2af3 (todo edit)
   useEffect(() => {
-    inpTitle.current.focus();
-  }, []);
+    inpTitle.current.focus()
+  }, [])
 
-  const [editing, setEditing] = useState(false);
-  const [editWithId, setEditWithId] = useState();
-  const [today, setToday] = useState(555);
+  const [editing, setEditing] = useState(false)
+  const [editWithId, setEditWithId] = useState()
+  const [today, setToday] = useState(555)
 
   const [ToDoItem, setTodoItem] = useState({
-    title: "mesal",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    title: 'mesal',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     time: new Date().toTimeString().substring(0, 8),
     date: new Date().toISOString().substring(0, 10),
     dateTime: new Date(),
     done: false,
     id: 0,
-<<<<<<< HEAD
     cancelModalClick: null,
     modalActive: null,
   })
@@ -93,22 +70,22 @@ const MyTodo = () => {
 
   
   const [numberId, setNumberId] = useState(listItem.length)
-=======
-    timerOut: null,
-  });
-  const [listItem, setListItem] = useState([ToDoItem]);
-  useEffect(() => {}, [listItem]);
-  const [numberId, setNumberId] = useState(listItem.length);
->>>>>>> parent of 36a2af3 (todo edit)
 
-  const addTodo = async (e) => {
-    e.preventDefault();
-    setNumberId(numberId + 1);
-    let Time = inpTime.current.value;
-    if (Time.length <= 5) {
-      Time = Time + ":00";
+  const handleClickScroll = () => {
+    const element = document.getElementById('top');
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({ behavior: 'smooth' });
     }
-    console.log(Time);
+  };
+  const addTodo = async (e) => {
+    e.preventDefault()
+    setNumberId(numberId + 1)
+    let Time = inpTime.current.value
+    if (Time.length <= 5) {
+      Time = Time + ':00'
+    }
+    console.log(Time)
     const newTodo = {
       title: inpTitle.current.value,
       text: inpText.current.value,
@@ -118,7 +95,6 @@ const MyTodo = () => {
       done: false,
       id: numberId,
       readMore: false,
-<<<<<<< HEAD
       cancelModalClick: null,
       modalActive: null,
     }
@@ -132,24 +108,9 @@ const MyTodo = () => {
     inpTime.current.value = ''
     inpDate.current.value = ''
   }
-=======
-      modalClick: null,
-      timerOut: null,
-    };
-    const updatedList = [...listItem];
-    updatedList.push(newTodo);
-    console.log("updatedList   : " + updatedList);
-    setListItem(updatedList);
-    inpTitle.current.value = "";
-    inpText.current.value = "";
-    inpTime.current.value = "";
-    inpDate.current.value = "";
-  };
->>>>>>> parent of 36a2af3 (todo edit)
   const editInpTodo = (e, item) => {
-    e.preventDefault();
+    e.preventDefault()
 
-<<<<<<< HEAD
     const newState = listItem.map((obj) => {
       if (obj.id == item.id) {
         obj.title = inpEditTitle.current.value
@@ -166,39 +127,21 @@ const MyTodo = () => {
     setEditWithId(null)
    
   }
-=======
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.title = inpEditTitle.current.value;
-        newItem.text = inpEditText.current.value;
-        newItem.time = inpEditTime.current.value;
-        newItem.date = inpEditDate.current.value;
-        return newItem;
-      } else {
-        return newItem;
-      }
-    });
-    setEditing(false);
-    setEditWithId(null);
-    setListItem(UpdatedList);
-  };
->>>>>>> parent of 36a2af3 (todo edit)
 
   const editTodo = (item) => {
-    setEditing(true);
-    setEditWithId(item.id);
-  };
+    setEditing(true)
+    setEditWithId(item.id)
+  }
 
   
   const removeTodo = (id) => {
-    const updatedList = [...listItem].filter((item) => item.id !== id);
-    console.log("updatedList" + JSON.stringify(updatedList));
-    console.log("listItem" + JSON.stringify(listItem));
-    setListItem(updatedList);
-  };
+    const updatedList = [...listItem].filter((item) => item.id !== id)
+    console.log('updatedList' + JSON.stringify(updatedList))
+    console.log('listItem' + JSON.stringify(listItem))
+    setListItem(updatedList)
+  }
 
   const checkBoxClick = (item) => {
-<<<<<<< HEAD
     const newState = listItem.map((obj) => {
       if (obj.id == item.id) {
         obj.done = !item.done;
@@ -236,53 +179,25 @@ const MyTodo = () => {
 
     setListItem(newState);
   }
-=======
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.done = !item.done;
-        return newItem;
-      } else {
-        return newItem;
-      }
-    });
-    setListItem(UpdatedList);
-  };
-
-  const moreClick = (item) => {
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.readMore = !item.readMore;
-        return newItem;
-      } else {
-        return newItem;
-      }
-    });
-    setListItem(UpdatedList);
-  };
->>>>>>> parent of 36a2af3 (todo edit)
   function diff(item) {
     // start = start.split(":");
-    let now = new Date().toTimeString().substring(0, 9);
-    let dateTime = item.time;
+    let now = new Date().toTimeString().substring(0, 9)
+    let dateTime = item.time
     if (dateTime.length <= 5) {
-      dateTime = dateTime + ":00";
+      dateTime = dateTime + ':00'
     }
-    const [h, m, s] = dateTime.split(":");
-    const [hNow, mNow, sNow] = now.split(":");
+    const [h, m, s] = dateTime.split(':')
+    const [hNow, mNow, sNow] = now.split(':')
     let dateTimeTomiliSecond =
-      parseInt(h) * 60 * 100000 + parseInt(m * 100000) + parseInt(s * 1000);
+      parseInt(h) * 60 * 100000 + parseInt(m * 100000) + parseInt(s * 1000)
     let nowTomiliSecond =
       parseInt(hNow) * 60 * 100000 +
       parseInt(mNow * 100000) +
-      parseInt(sNow * 1000);
-    console.log("now " + now);
-    console.log("dateTime " + dateTime);
+      parseInt(sNow * 1000)
+    console.log('now ' + now)
+    console.log('dateTime ' + dateTime)
 
-<<<<<<< HEAD
     return (nowTomiliSecond - dateTimeTomiliSecond)>0 &&(nowTomiliSecond - dateTimeTomiliSecond)
-=======
-    return nowTomiliSecond - dateTimeTomiliSecond;
->>>>>>> parent of 36a2af3 (todo edit)
     // console.log('dateTimeTomiliSecond  '+dateTimeTomiliSecond);
     // console.log('nowTomiliSecond '+nowTomiliSecond);
     // console.log('difrence is '+(dateTimeTomiliSecond-nowTomiliSecond));
@@ -306,7 +221,6 @@ const MyTodo = () => {
   //   console.log(hour," ",min," ",distance.getTime()+" ",distance)
   // }
 
-<<<<<<< HEAD
 
   const MilisecondConverterToMinAndSec = (millis) => {
     var minutes = Math.floor(millis / 60000);
@@ -425,74 +339,9 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
   }, [...listItem.map(item => item.cancelModalClick)])
     
    //return
-=======
-  const [modalActiv, setModalActive] = useState(false);
-  const remindeMe = (item) => {
-    const timeOutSet = setTimeout(() => {
-      console.log("reminder with id" + item.id);
-
-      const UpdatedList2 = listItem.map((newItem, i) => {
-        if (newItem.id == item.id) {
-          newItem.modalClick = false;
-          return newItem;
-        } else {
-          return newItem;
-        }
-      });
-      setListItem(UpdatedList2);
-      setModalActive(true);
-    }, diff(item));
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.modalClick = true;
-        newItem.timerOut = timeOutSet;
-        return newItem;
-      } else {
-        return newItem;
-      }
-    });
-    setListItem(UpdatedList);
-
-    console.log(diff(item));
-
-    // return clearTimeout(timerOut);
-  };
-  const cancelReminder = (item) => {
-    console.log("cancelReminder");
-    clearTimeout(item.timerOut);
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.modalClick = null;
-        return newItem;
-      } else {
-        return newItem;
-      }
-    });
-    setListItem(UpdatedList);
-  };
-  const exitModal = () => {
-    setModalActive(false);
-  };
-  //return
->>>>>>> parent of 36a2af3 (todo edit)
   return (
-    <div className="m-1 md:m-2 dark:bg-gray-800 ">
+    <div className="m-1 md:m-2 dark:bg-gray-800 " id='top'>
       {/* <button className="my-button" onClick={() => console.log(listItem)}>show list</button> */}
-<<<<<<< HEAD
-=======
-
-      <div className={`${modalActiv ? "" : "invisible"} modal flex flex-col`}>
-        <MdOutlineCancel
-          className="text-white text-3xl m-2 self-end"
-          onClick={exitModal}
-        />
-        <div className="flex flex-col justify-center  p-10">
-          <p className="text-4xl text-white self-center">Time has Ended</p>
-          <p className=" self-center text-white">reminder finished!</p>
-        </div>
-      </div>
-
->>>>>>> parent of 36a2af3 (todo edit)
       <form action="" onSubmit={addTodo} className="">
         {/*  */}
         <fieldset className="  rounded-sm p-2 bg-transparent border-gray-400  border-2  flex flex-col  lg:flex-row   ">
@@ -542,11 +391,11 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
             <button
               className="my-button text-xs self-stretch  my-2 "
               onClick={(e) => {
-                console.log(new Date().toTimeString().substring(0, 8));
-                e.preventDefault();
+                console.log(new Date().toTimeString().substring(0, 8))
+                e.preventDefault()
                 inpTime.current.value = new Date()
                   .toTimeString()
-                  .substring(0, 8);
+                  .substring(0, 8)
               }}
             >
               now
@@ -564,11 +413,11 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
             <button
               className="my-button text-xs self-stretch  my-2 "
               onClick={(e) => {
-                e.preventDefault();
+                e.preventDefault()
 
                 inpDate.current.value = new Date()
                   .toISOString()
-                  .substring(0, 10);
+                  .substring(0, 10)
               }}
             >
               now
@@ -589,7 +438,6 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
       {/* lg:grid lg:grid-cols-2 lg:gap-4 */}
         {listItem.map((item, index) => {
           return (
-<<<<<<< HEAD
             <div key={item.id}>
               <div
                   style={{backgroundColor:randColor}}
@@ -719,129 +567,25 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
                     }
                   >
                     
-=======
-            <li
-              className="flex items-center list-none border-2 border-gray-400 bg--500 rounded-sm p-2 text-center w-full     my-2"
-              key={index}
-            >
-              {editing && editWithId == item.id ? (
-                <div>
-                  <form
-                    className="flex flex-col my-1"
-                    action=""
-                    onSubmit={(e) => editInpTodo(e, item)}
-                  >
-                    <div className="flex flex-col mx-2">
-                      <label htmlFor="editTitle">Title:</label>
-                      <input
-                        className="text-center"
-                        ref={inpEditTitle}
-                        type="text"
-                        name=""
-                        defaultValue={item.title}
-                        id="editTitle"
-                        required
-                        maxLength={40}
-                      />
-                    </div>
-                    <div className="flex flex-col m-2 ">
-                      <label htmlFor="editText">Text:</label>
-                      <textarea
-                        className="w-full   "
-                        ref={inpEditText}
-                        type="text"
-                        name=""
-                        defaultValue={item.text}
-                        id="editText"
-                        required
-                      />
-                    </div>
->>>>>>> parent of 36a2af3 (todo edit)
 
-                    <div className=" my-1 flex flex-row justify-between mx-2">
-                      <label htmlFor="editTime">Time</label>
-                      {console.log(item.time)}
-                      <input
-                        ref={inpEditTime}
-                        type="time"
-                        step={1}
-                        name=""
-                        defaultValue={item.time}
-                        id="editTime"
-                      />
-                      <label htmlFor="editDate">Date</label>
-                      <input
-                        ref={inpEditDate}
-                        type="date"
-                        name=""
-                        defaultValue={item.date}
-                        id="editDate"
-                      />
-                    </div>
-
-                    <button type="submit" className="my-button my-1">
-                      save
-                    </button>
-                    <button
-                      className="my-button"
-                      onClick={() => setEditing(false)}
-                    >
-                      cancel{" "}
-                    </button>
-                    <button
-                      className="my-button "
-                      onClick={(e) => {
-                        e.preventDefault();
-                        inpEditTime.current.value = new Date()
-                          .toTimeString()
-                          .substring(0, 8);
-                      }}
-                    >
-                      set time to now
-                    </button>
-                    {/* {new Date().toISOString().substring(0, 11)} */}
-                    <button
-                      className="my-button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        inpEditDate.current.value = new Date()
-                          .toISOString()
-                          .substring(0, 10);
-                      }}
-                    >
-                      set time to date
-                    </button>
-                  </form>
-                </div>
-              ) : (
-                <div
-                  className={
-                    item.done
-                      ? " rounded-t-none w-full items-center  backdrop-blur-sm border-none grayscale transition-all duration-1000"
-                      : "rounded-t-none  items-end w-full  backdrop-blur-sm border-none transition-all duration-700 "
-                  }
-                >
-                  {/* {<h1 className="font-bold">{item.done ? "done" : "unDone"}</h1>} */}
-
-                  <h3
-                    className=" inline-block  lg:w-1/3 teal-block-big  outline-4  mx-4 
+                    <h3
+                      className=" inline-block  lg:w-1/3 teal-block-big  outline-4  mx-4 
                  w-4/5
                 selection:bg-[#efb687] selection:text-black 
               
                   "
-                  >
-                    {item.title.charAt(0).toUpperCase() + item.title.slice(1)}
-                  </h3>
-                  <div className=" flex flex-col">
-                    <MdExpandMore
-                      onClick={() => moreClick(item)}
-                      className={`t-1 self-center 
+                    >
+                      {item.title.charAt(0).toUpperCase() + item.title.slice(1)}
+                    </h3>
+                    <div className=" flex flex-col">
+                      <MdExpandMore
+                        onClick={() => moreClick(item)}
+                        className={`t-1 self-center 
                 hover:outline-2 hover:outline-white hover:outline text-white rounded-full 
                  bg-rose-500 duration-100 z-50  order-2 transition-all mt-2
-                 ${item.readMore ? "rotate-180 " : ""}`}
-                    />
+                 ${item.readMore ? 'rotate-180 ' : ''}`}
+                      />
 
-<<<<<<< HEAD
                       <p
                         className={`relative order-1 overflow-y-scroll teal-block-big mx-1.5 font-normal  py-1.5 m-0 overflow-hidden transition-all duration-1000  h-full ${
                           item.readMore ? 'max-h-20  ' : 'max-h-9'
@@ -923,83 +667,13 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
                         {/* <button onClick={()=>console.log(JSON.stringify(item))}>log item</button> */}
                       </div>
                     )}
-=======
-                    <p
-                      className={`relative order-1  teal-block-big mx-1.5 font-normal  py-1.5 m-0 overflow-hidden transition-all duration-100  h-full ${
-                        item.readMore ? "max-h-fit " : "max-h-9"
-                      }`}
-                    >
-                      {item.text}
-                    </p>
->>>>>>> parent of 36a2af3 (todo edit)
                   </div>
-
-                  <div className="flex flex-row justify-center py-2 content-[]">
-                    <p className="teal-block  text-xs my-0">
-                      Time: {item.time}
-                    </p>
-                    <p className="teal-block  text-xs my-0 ">
-                      Date: {item.date}
-                    </p>
-                    <FaBell
-                      className="self-center ml-1 text-2xl text-red-600 hover:text-red-700"
-                      onClick={() => remindeMe(item)}
-                    />
-
-                    <span>
-                      {item.modalClick == null && ""}
-                      {item.modalClick == true && (
-                        <div className="self-center flex h-full  ">
-                          <span className="ml-2">running...</span>
-                          <MdOutlineCancel
-                            onClick={() => cancelReminder(item)}
-                            className="self-center ml-1 text-2xl  text-red-600 hover:text-red-700"
-                          />
-                        </div>
-                      )}
-                      {item.modalClick == false && "finished!"}
-                    </span>
-                  </div>
-                  <div></div>
-                  {editing ? (
-                    <></>
-                  ) : (
-                    <div
-                      className={
-                        "rounded-t-none   -m-2 flex flex-row justify-evenly"
-                      }
-                    >
-                      <button
-                        className="my-button  h-10 self-center"
-                        onClick={() => removeTodo(item.id)}
-                      >
-                        remove
-                      </button>
-                      <input
-                        className="       "
-                        // checkToDO
-                        type="checkbox"
-                        name=""
-                        id=""
-                        defaultChecked={item.done}
-                        ref={checkbox}
-                        onClick={() => checkBoxClick(item)}
-                      />
-                      <button
-                        className="my-button  h-10 self-center"
-                        onClick={() => editTodo(item)}
-                      >
-                        edit
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </li>
-          );
+                )}
+              </li>
+            </div>
+          )
         })}
       </ul>
-<<<<<<< HEAD
 
   {/* offset>20 && */}
     {
@@ -1008,10 +682,5 @@ const [randColor,setRandColor] =useState('rgb(0,0,0');
       </div>
   )
 }
-=======
-    </div>
-  );
-};
->>>>>>> parent of 36a2af3 (todo edit)
 
-export default MyTodo;
+export default MyTodo
