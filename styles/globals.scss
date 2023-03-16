@@ -3,14 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-<<<<<<< HEAD
-
-  
-  html {
-    scroll-behavior: smooth;
-}
-=======
->>>>>>> parent of 36a2af3 (todo edit)
   body::-webkit-scrollbar {
     width: 10px;
     @apply  m-1 p-2 to-blue-900;
@@ -62,13 +54,8 @@ padding: 22px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-<<<<<<< HEAD
-      @apply absolute  w-1/2 h-1/2 z-50 rounded-xl before:z-[52]
-        my-auto before:absolute before:bg-black before:w-full before:h-full  before:opacity-40 before:pointer-events-none 
-=======
       @apply absolute bg-red-600 w-1/2 h-1/2 z-50 rounded-xl 
         my-auto
->>>>>>> parent of 36a2af3 (todo edit)
      }
     .my-button {
         

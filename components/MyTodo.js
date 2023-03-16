@@ -63,7 +63,7 @@ const MyTodo = () => {
   // {id:null,timeOut:null}
  
   const [intervals, setIntervals] = useState([])
-  const sectionOfChangeRemainingTime=useRef([])
+  const sectionOfChangeRemainingTime=useRef()
 
   const [listItem, setListItem] = useState([ToDoItem])
 
