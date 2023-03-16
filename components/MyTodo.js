@@ -1,25 +1,38 @@
 import { tr } from 'date-fns/locale'
+import MilisecondConverterToMinAndSec from './MilisecondConverterToMinAndSec'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdExpandMore, MdOutlineCancel } from 'react-icons/md'
 import { BiUpArrowAlt } from 'react-icons/bi'
 import { FaBell } from 'react-icons/fa'
 
+import Lottie from "lottie-react";
+import TickLottie from '../public/Lottie/Tick.json';
+
+const updateState = (item) => {
+  const newState = listItem.map(obj => {
+    // 👇️ if id equals 2, update country property
+    if (obj.id === item.id) {
+      return {...obj, country: 'Denmark'};
+    }
+    // 👇️ otherwise return the object as is
+    return obj;
+  });
+  setListItem(newState);
+};
+
 const MyTodo = () => {
-  const [offset, setOffset] = useState(0);
+  // const [offset, setOffset] = useState(0);
+  //   useEffect(() => {
+        //       const onScroll = () => setOffset(window.pageYOffset);
+  //       // clean up code
+  //       window.removeEventListener('scroll', onScroll);
+  //       window.addEventListener('scroll', onScroll, { passive: true });
+  //       return () => window.removeEventListener('scroll', onScroll);
+  //   }, []);
 
-    useEffect(() => {
-        const onScroll = () => setOffset(window.pageYOffset);
-        // clean up code
-        window.removeEventListener('scroll', onScroll);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    // console.log(offset); 
 
-    console.log(offset); 
-  const checkbox = useRef()
-  const ddd=22;
-  const pLongText = useRef()
-
+    
   const inpTitle = useRef()
   const inpText = useRef()
   const inpTime = useRef()
@@ -44,12 +57,18 @@ const MyTodo = () => {
     dateTime: new Date(),
     done: false,
     id: 0,
-    timerOut: null,
-    modalClick: null,
+    cancelModalClick: null,
     modalActive: null,
   })
+  // {id:null,timeOut:null}
+ 
+  const [intervals, setIntervals] = useState([])
+  const sectionOfChangeRemainingTime=useRef([])
+
   const [listItem, setListItem] = useState([ToDoItem])
-  useEffect(() => {}, [listItem])
+
+
+  
   const [numberId, setNumberId] = useState(listItem.length)
 
   const handleClickScroll = () => {
@@ -72,13 +91,14 @@ const MyTodo = () => {
       text: inpText.current.value,
       time: Time,
       date: inpDate.current.value,
+      dateTime: new Date(),
       done: false,
       id: numberId,
       readMore: false,
-      modalClick: null,
-      timerOut: null,
+      cancelModalClick: null,
       modalActive: null,
     }
+    setTodoItem(newTodo);
     const updatedList = [...listItem]
     updatedList.push(newTodo)
     console.log('updatedList   : ' + updatedList)
@@ -91,20 +111,21 @@ const MyTodo = () => {
   const editInpTodo = (e, item) => {
     e.preventDefault()
 
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.title = inpEditTitle.current.value
-        newItem.text = inpEditText.current.value
-        newItem.time = inpEditTime.current.value
-        newItem.date = inpEditDate.current.value
-        return newItem
-      } else {
-        return newItem
-      }
+    const newState = listItem.map((obj) => {
+      if (obj.id == item.id) {
+        obj.title = inpEditTitle.current.value
+        obj.text = inpEditText.current.value
+        obj.time = inpEditTime.current.value
+        obj.date = inpEditDate.current.value
+        return obj
+      } 
+      return obj;
     })
+
+    setListItem(newState);
     setEditing(false)
     setEditWithId(null)
-    setListItem(UpdatedList)
+   
   }
 
   const editTodo = (item) => {
@@ -112,6 +133,7 @@ const MyTodo = () => {
     setEditWithId(item.id)
   }
 
+  
   const removeTodo = (id) => {
     const updatedList = [...listItem].filter((item) => item.id !== id)
     console.log('updatedList' + JSON.stringify(updatedList))
@@ -120,27 +142,42 @@ const MyTodo = () => {
   }
 
   const checkBoxClick = (item) => {
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.done = !item.done
-        return newItem
-      } else {
-        return newItem
-      }
+    const newState = listItem.map((obj) => {
+      if (obj.id == item.id) {
+        obj.done = !item.done;
+        return obj
+      } 
+      return obj;
     })
-    setListItem(UpdatedList)
+
+    setListItem(newState);
+    
+    
+  }
+  const yesClick=(item)=>{
+    const newState = listItem.map((obj) => {
+      if (obj.id == item.id) {
+        obj.done = true;
+        return obj
+      } 
+      return obj;
+    })
+
+    setListItem(newState);
+    // checkbox.current.checked;
+    // console.log(checkbox);
   }
 
   const moreClick = (item) => {
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.readMore = !item.readMore
-        return newItem
-      } else {
-        return newItem
-      }
+    const newState = listItem.map((obj) => {
+      if (obj.id == item.id) {
+        obj.readMore = !item.readMore;
+        return obj
+      } 
+      return obj;
     })
-    setListItem(UpdatedList)
+
+    setListItem(newState);
   }
   function diff(item) {
     // start = start.split(":");
@@ -160,7 +197,7 @@ const MyTodo = () => {
     console.log('now ' + now)
     console.log('dateTime ' + dateTime)
 
-    return nowTomiliSecond - dateTimeTomiliSecond
+    return (nowTomiliSecond - dateTimeTomiliSecond)>0 &&(nowTomiliSecond - dateTimeTomiliSecond)
     // console.log('dateTimeTomiliSecond  '+dateTimeTomiliSecond);
     // console.log('nowTomiliSecond '+nowTomiliSecond);
     // console.log('difrence is '+(dateTimeTomiliSecond-nowTomiliSecond));
@@ -184,46 +221,91 @@ const MyTodo = () => {
   //   console.log(hour," ",min," ",distance.getTime()+" ",distance)
   // }
 
-  const remindeMe = (item) => {
-    const timeOutSet = setTimeout(() => {
-      console.log('reminder with id' + item.id)
 
-      const UpdatedList2 = listItem.map((newItem, i) => {
-        if (newItem.id == item.id) {
-          newItem.modalClick = false
-          newItem.modalActive = true
-          return newItem
-        } else {
-          return newItem
-        }
-      })
-      setListItem(UpdatedList2)
-    }, diff(item))
-    const UpdatedList = listItem.map((newItem, i) => {
-      if (newItem.id == item.id) {
-        newItem.modalClick = true
-        newItem.timerOut = timeOutSet
-        return newItem
-      } else {
-        return newItem
-      }
+  const MilisecondConverterToMinAndSec = (millis) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    if (minutes>=0  && seconds>=0) {
+            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+    else return '00:00'
+  
+}
+
+  const intervalSetSetting=(item)=>{
+
+    const sTime=new Date();
+    const distanceTime=sTime-item.dateTime;
+    let dis=distanceTime;
+    const countInterval=setInterval(() => {
+      dis=dis-1000;                     
+      console.log('remind id= ' +item.id);
+      console.log('Intervals = ' +intervals);
+      sectionOfChangeRemainingTime.current[item.id].textContent=MilisecondConverterToMinAndSec(dis);
+    
+      if (dis<=0) {
+        setTimeout(() => {
+          cancelReminder(item);
+          const UpdatedList = listItem.map((newItem, i) => {
+            if (newItem.id == item.id) {
+              newItem.modalActive = true
+              return newItem
+            } 
+            return newItem
+            
+          })
+          setListItem(UpdatedList)
+        }, dis);
+        
+       }
+     }, 1000);
+     const newInterval = listItem.map((objInterval) => {
+      if (objInterval.id == item.id) {
+        objInterval.id = countInterval;
+        return objInterval
+      } 
+      return objInterval;
     })
-    setListItem(UpdatedList)
-
-    console.log(diff(item))
-
-    // return clearTimeout(timerOut);
+    setIntervals(newInterval)
+     
   }
+  const clearListInterval=(item)=>{
+    listItem.map((objInterval) => {
+      if (objInterval.id == item.id) {
+        clearInterval(objInterval.id)
+         
+      } 
+      return;
+    })
+  }
+
+  const remindeMe = (item) => {
+    
+
+    intervalSetSetting(item);
+    
+     const UpdatedList3 = listItem.map((obj, i) => {
+      if (obj.id == item.id) {
+        obj.cancelModalClick = true
+        return obj;
+      } 
+      return obj;    })
+    setListItem(UpdatedList3)
+    console.log(diff(item))
+  }
+
+  
+
   const cancelReminder = (item) => {
+    clearListInterval(item);
     console.log('cancelReminder')
-    clearTimeout(item.timerOut)
     const UpdatedList = listItem.map((newItem, i) => {
       if (newItem.id == item.id) {
-        newItem.modalClick = null
+        newItem.cancelModalClick = null
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
   }
@@ -232,28 +314,34 @@ const MyTodo = () => {
       if (newItem.id == item.id) {
         newItem.modalActive = false
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
   }
 
-  const createColor=(id)=>{
-    
+const [randColor,setRandColor] =useState('rgb(0,0,0');
+  useEffect(() => {
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min) + min);}
-
-    return`rgb(${getRandomInt(0,256)},${getRandomInt(0,256)},${getRandomInt(0,256)})`
+      const color=Math.floor(Math.random() * (max - min) + min);
+      return color;
+    }
     
-  }
-  //return
+      const rgb=`rgb(${getRandomInt(0,256)},${getRandomInt(0,256)},${getRandomInt(0,256)})`;
+      
+      setRandColor(rgb);
+      console.log(randColor);
+    
+    
+  }, [...listItem.map(item => item.cancelModalClick)])
+    
+   //return
   return (
     <div className="m-1 md:m-2 dark:bg-gray-800 " id='top'>
       {/* <button className="my-button" onClick={() => console.log(listItem)}>show list</button> */}
-
       <form action="" onSubmit={addTodo} className="">
         {/*  */}
         <fieldset className="  rounded-sm p-2 bg-transparent border-gray-400  border-2  flex flex-col  lg:flex-row   ">
@@ -345,36 +433,36 @@ const MyTodo = () => {
       </form>
       {/* iran time */}
       {/* ////////////////////////////////////////////////////////////////////////////// */}
-      {console.log(listItem)}
-      <ul className="lg:grid lg:grid-cols-2 lg:gap-4">
+      
+      <ul className="">
+      {/* lg:grid lg:grid-cols-2 lg:gap-4 */}
         {listItem.map((item, index) => {
           return (
-            <div>
-            
+            <div key={item.id}>
               <div
-                  style={{backgroundColor:createColor(item.id)}}
+                  style={{backgroundColor:randColor}}
                 className={`${
                   item.modalActive
                     ? `  `
                     : 'invisible'
-                } modal flex flex-col items-center text-center shadow-2xl shadow-current `} 
-              > <div className='flex justify-end w-full'> 
+                } modal flex flex-col items-center text-center shadow-2xl shadow-current  `} 
+              > <div className='flex justify-end w-full z-[53]'> 
                 <MdOutlineCancel
                   className="text-white text-2xl hover:text-black m-2 self-end z-50 cursor-pointer "
                   onClick={() => exitModal(item)}
                 /></div>
                
-                <div className="flex flex-col justify-center  p-4 ">
+                <div className="flex flex-col justify-center  items-center z-[53] ">
                 
-                <h1 className=" self-center text-white text-2xl">reminder finished!</h1>
-                  <p className="text-4xl text-white self-center ">
-                    time of {item.title} has arrived.
+                <h1 className=" self-center text-white text-4xl mb-6 ">Reminder finished!</h1>
+                  <p className="text-2xl text-white   flex">
+                    Time of <span className='teal-block inline m-0 py-0 mx-2 transition-none  before:transition-none  '>{item.title}</span> has arrived.
                   </p>
                   <div className='flex flex-col justify-around shadow-sm shadow-current  my-4 p-4 rounded-lg bg-gradient-to-b from-gray-800  to-gray-700'>
                     <p className='text-white'>do you want to check done this Task?</p>
                     <div className='flex justify-around  my-4'>
                     <button className='my-button px-8 py-2 ' onClick={()=>exitModal(item)}>No</button>
-                    <button className='my-button px-8 py-2' onClick={()=>{checkBoxClick(item);exitModal(item)}}>Yes</button>
+                    <button className='my-button px-8 py-2' onClick={()=>{yesClick(item);exitModal(item)}}>Yes</button>
                     </div>
                   </div>
                   
@@ -382,7 +470,7 @@ const MyTodo = () => {
               </div>
               <li
                 className="flex items-center list-none border-2 border-gray-400 bg--500 rounded-sm p-2 text-center w-full     my-2"
-                key={index}
+                key={item.id}
               >
                 {editing && editWithId == item.id ? (
                   <div>
@@ -445,7 +533,7 @@ const MyTodo = () => {
                         className="my-button"
                         onClick={() => setEditing(false)}
                       >
-                        cancel{' '}
+                        cancel
                       </button>
                       <button
                         className="my-button "
@@ -474,18 +562,16 @@ const MyTodo = () => {
                   </div>
                 ) : (
                   <div
-                    className={
-                      item.done
-                        ? ' rounded-t-none w-full items-center  backdrop-blur-sm border-none grayscale transition-all duration-1000'
-                        : 'rounded-t-none  items-end w-full  backdrop-blur-sm border-none transition-all duration-700 '
+                    className={`${item.done && 'grayscale '} rounded-t-none w-full items-center  backdrop-blur-sm border-none  transition-widt duration-1000 `
+                      
                     }
                   >
-                    {/* {<h1 className="font-bold">{item.done ? "done" : "unDone"}</h1>} */}
+                    
 
                     <h3
                       className=" inline-block  lg:w-1/3 teal-block-big  outline-4  mx-4 
                  w-4/5
-                selection:bg-[#efb687] selection:text-black bg-teal-600 
+                selection:bg-[#efb687] selection:text-black 
               
                   "
                     >
@@ -501,8 +587,8 @@ const MyTodo = () => {
                       />
 
                       <p
-                        className={`relative order-1  teal-block-big mx-1.5 font-normal  py-1.5 m-0 overflow-hidden transition-all duration-100  h-full ${
-                          item.readMore ? 'max-h-fit ' : 'max-h-9'
+                        className={`relative order-1 overflow-y-scroll teal-block-big mx-1.5 font-normal  py-1.5 m-0 overflow-hidden transition-all duration-1000  h-full ${
+                          item.readMore ? 'max-h-20  ' : 'max-h-9'
                         }`}
                       >
                         {item.text}
@@ -518,21 +604,21 @@ const MyTodo = () => {
                       </p>
                       <FaBell
                         className="self-center ml-1 text-2xl text-red-600 hover:text-red-700"
-                        onClick={() => remindeMe(item)}
+                        onClick={() => {remindeMe(item)} }
                       />
 
                       <span>
-                        {item.modalClick == null && ''}
-                        {item.modalClick == true && (
-                          <div className="self-center flex h-full  ">
-                            <span className="ml-2">running...</span>
+          
+                        { (
+                          <div className={` ${!item.cancelModalClick == true && 'hidden'} self-center flex h-full m-0 `}>
+                            <span  className=" teal-block before:transition-none my-0 py-0 leading-loose" ref={el => sectionOfChangeRemainingTime.current[item.id] = el}>{MilisecondConverterToMinAndSec(new Date()-item.dateTime)}</span>
                             <MdOutlineCancel
                               onClick={() => cancelReminder(item)}
                               className="self-center ml-1 text-2xl  text-red-600 hover:text-red-700"
                             />
                           </div>
                         )}
-                        {item.modalClick == false && 'finished!'}
+                       
                       </span>
                     </div>
                     <div></div>
@@ -545,27 +631,40 @@ const MyTodo = () => {
                         }
                       >
                         <button
-                          className="my-button  h-10 self-center"
-                          onClick={() => removeTodo(item.id)}
+                          className="my-button  h-10 self-center w-1/6 p-0"
+                          onClick={() => {removeTodo(item.id);clearListInterval(item)}}
                         >
                           remove
                         </button>
-                        <input
-                          className="       "
+                        
+                        <div className='relative flex flex-row items-center '>
+                           <input
+                          className=" flex flex-row items-center appearance-none checkToDO"
                           // checkToDO
                           type="checkbox"
-                          name=""
+                          name="checkbox"
                           id=""
-                          defaultChecked={item.done}
-                          ref={checkbox}
-                          onClick={() => checkBoxClick(item)}
+                          checked={item.done}
+                          
+                          onChange={() => checkBoxClick(item)}
                         />
+                        <span className='absolute  pointer-events-none'>
+                          
+                        { item.done &&<Lottie animationData={TickLottie} loop={false}   />}
+
+                        </span>
+
+                        </div>
+                       
+                        
+                       
                         <button
-                          className="my-button  h-10 self-center"
+                          className="my-button  h-10 self-center w-1/6"
                           onClick={() => editTodo(item)}
                         >
                           edit
                         </button>
+                        {/* <button onClick={()=>console.log(JSON.stringify(item))}>log item</button> */}
                       </div>
                     )}
                   </div>
@@ -575,7 +674,9 @@ const MyTodo = () => {
           )
         })}
       </ul>
-    {offset>20 &&
+
+  {/* offset>20 && */}
+    {
       <BiUpArrowAlt className='my-button p-2  text-4xl h-fit w-fit text-white sticky bottom-0' onClick={handleClickScroll}/>    
     }
       </div>
