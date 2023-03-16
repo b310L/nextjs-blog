@@ -3,20 +3,36 @@
 @tailwind utilities;
 
 @layer base {
+<<<<<<< HEAD
+
+  
+  html {
+    scroll-behavior: smooth;
+}
+=======
+>>>>>>> parent of 36a2af3 (todo edit)
   body::-webkit-scrollbar {
     width: 10px;
+    @apply  m-1 p-2 to-blue-900;
   }
   ::-webkit-scrollbar {
     width: 5px;
+    
+
   }
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    
+    margin: 2px;
+    padding: 22px;
+    background: #fefbfb70; 
   }
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    @apply bg-teal-700;
+    
+padding: 22px;
+    @apply bg-teal-700 m-1;
   }
   
   /* Handle on hover */
@@ -46,8 +62,13 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+<<<<<<< HEAD
+      @apply absolute  w-1/2 h-1/2 z-50 rounded-xl before:z-[52]
+        my-auto before:absolute before:bg-black before:w-full before:h-full  before:opacity-40 before:pointer-events-none 
+=======
       @apply absolute bg-red-600 w-1/2 h-1/2 z-50 rounded-xl 
         my-auto
+>>>>>>> parent of 36a2af3 (todo edit)
      }
     .my-button {
         
@@ -69,16 +90,16 @@
     .teal-block-big {
       z-index: 4;
       @apply block relative  drop-shadow-lg 
-       bg-gradient-to-bl from-kerem-700 via-red-500 to-rose-700  
+      bg-gradient-to-l from-kerem-700  to-rose-600   
       before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  
-       before:opacity-100  before:transition-all 
-       before:duration-500  ease-in-out hover:before:opacity-0
+       before:opacity-100  before:transition-all duration-500 before:duration-500
+         ease-in-out hover:before:opacity-0
         before:-z-10 filter backdrop-blur-[50px]
- hover:backdrop-blur-md backdrop-brightness-150   duration-500
-       before:bg-gradient-to-bl before:from-kerem-700 before:via-red-600 before:to-rose-700
+ hover:backdrop-blur-md backdrop-brightness-150   
+ before:bg-gradient-to-l before:from-kerem-700  before:to-rose-500
        
-         before:rounded-sm text-white 
-         bg-teal-500 rounded-sm  p-2
+         before:rounded-sm text-black hover:text-white
+          rounded-sm  p-2
           mb-2  mx-1 ;
   }
   .teal-block {
@@ -86,10 +107,10 @@
     @apply block relative  drop-shadow-lg 
      bg-gradient-to-l from-kerem-700  to-rose-600   
     before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:top-0  
-     before:opacity-100  before:transition-all 
-     before:duration-500  ease-in-out hover:before:opacity-0
-      before:-z-10
-      font-semibold   duration-500
+     before:opacity-100  
+       ease-in-out hover:before:opacity-0
+      before:-z-10 hover:text-white
+      font-semibold   duration-500 before:duration-500 before:transition-all 
      before:bg-gradient-to-l before:from-kerem-700  before:to-rose-500
      
        before:rounded-sm  
@@ -124,34 +145,17 @@
 
   //   
   .checkToDO {
-      @apply  relative invisible  after:inline-block before:inline-block 
-      after:cursor-pointer w-12 h-12
-      after:visible before:visible
-      before:absolute    
-      before:rounded-full   
-      before:text-center before:right-0 before:left-0 before:top-0 before:bottom-0
-      before:border-2 
-    before:border-rose-500
-    after:checked:bg-transparent
-    after:checked:absolute
-    after:checked:top-0
-    after:checked:bottom-0
-    after:checked:left-0
-    after:checked:right-0 before:content-['_'] 
-    after:checked:content-['\2713']
-    after:checked:flex          
-    after:checked:leading-6
-    after:checked:justify-center
-    after:checked:text-[65px]
-  after:checked:text-red-500
+    @apply     
+      w-12 h-12 invisible
+      before:visible
+      before:absolute   before:m-0 before:p-0 before:right-0 before:rounded-full
+      before:text-center before:w-12 before:h-12
+      before:border-2
+    before:border-rose-500 cursor-pointer
+  
     
-    after:checked:backdrop-filter 
-    after:backdrop-blur-sm
-    after:checked:backdrop-blur-3xl
-    after:z-[50]
-    after:checked:rounded-full  
-    before:-m-0.5 before:cursor-pointer
-    }
+  }
+    
   // after:m-2
   // after:checked:animate-wiggle
 //transform-gpu
