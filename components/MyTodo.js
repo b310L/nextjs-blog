@@ -357,30 +357,30 @@ const MyTodo = () => {
           return (
             <div>
             
-              <div
+            <div
                   style={{backgroundColor:randColor}}
                 className={`${
                   item.modalActive
                     ? `  `
                     : 'invisible'
-                } modal flex flex-col items-center text-center shadow-2xl shadow-current `} 
-              > <div className='flex justify-end w-full'> 
+                } modal flex flex-col items-center text-center shadow-2xl shadow-current  `} 
+              > <div className='flex justify-end w-full z-[53]'> 
                 <MdOutlineCancel
                   className="text-white text-2xl hover:text-black m-2 self-end z-50 cursor-pointer "
                   onClick={() => exitModal(item)}
                 /></div>
                
-                <div className="flex flex-col justify-center  p-4 ">
+                <div className="flex flex-col justify-center  items-center z-[53] ">
                 
-                <h1 className=" self-center text-white text-2xl">reminder finished!</h1>
-                  <p className="text-4xl text-white self-center ">
-                    time of {item.title} has arrived.
+                <h1 className=" self-center text-white text-4xl mb-6 ">Reminder finished!</h1>
+                  <p className="text-2xl text-white   flex">
+                    Time of <span className='teal-block inline m-0 py-0 mx-2 transition-none  before:transition-none  '>{item.title}</span> has arrived.
                   </p>
                   <div className='flex flex-col justify-around shadow-sm shadow-current  my-4 p-4 rounded-lg bg-gradient-to-b from-gray-800  to-gray-700'>
                     <p className='text-white'>do you want to check done this Task?</p>
                     <div className='flex justify-around  my-4'>
                     <button className='my-button px-8 py-2 ' onClick={()=>exitModal(item)}>No</button>
-                    <button className='my-button px-8 py-2' onClick={()=>{checkBoxClick(item);exitModal(item)}}>Yes</button>
+                    <button className='my-button px-8 py-2' onClick={()=>{yesClick(item);exitModal(item)}}>Yes</button>
                     </div>
                   </div>
                   
