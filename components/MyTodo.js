@@ -98,9 +98,9 @@ const MyTodo = () => {
         newItem.time = inpEditTime.current.value
         newItem.date = inpEditDate.current.value
         return newItem
-      } else {
+      } 
         return newItem
-      }
+      
     })
     setEditing(false)
     setEditWithId(null)
@@ -124,9 +124,9 @@ const MyTodo = () => {
       if (newItem.id == item.id) {
         newItem.done = !item.done
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
   }
@@ -136,9 +136,9 @@ const MyTodo = () => {
       if (newItem.id == item.id) {
         newItem.readMore = !item.readMore
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
   }
@@ -193,9 +193,9 @@ const MyTodo = () => {
           newItem.modalClick = false
           newItem.modalActive = true
           return newItem
-        } else {
-          return newItem
-        }
+        } 
+        return newItem
+        
       })
       setListItem(UpdatedList2)
     }, diff(item))
@@ -204,9 +204,9 @@ const MyTodo = () => {
         newItem.modalClick = true
         newItem.timerOut = timeOutSet
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
 
@@ -221,9 +221,9 @@ const MyTodo = () => {
       if (newItem.id == item.id) {
         newItem.modalClick = null
         return newItem
-      } else {
+      } 
         return newItem
-      }
+      
     })
     setListItem(UpdatedList)
   }
@@ -232,9 +232,9 @@ const MyTodo = () => {
       if (newItem.id == item.id) {
         newItem.modalActive = false
         return newItem
-      } else {
-        return newItem
-      }
+      } 
+      return newItem
+      
     })
     setListItem(UpdatedList)
   }
