@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { MdExpandMore, MdOutlineCancel } from 'react-icons/md'
 import { BiUpArrowAlt } from 'react-icons/bi'
 import { FaBell } from 'react-icons/fa'
+import Lottie from "lottie-react";
+import TickLottie from '../public/Lottie/Tick.json';
 
 const MyTodo = () => {
   const [offset, setOffset] = useState(0);
@@ -59,7 +61,8 @@ const MyTodo = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  const addTodo = async (e) => {
+
+    const addTodo = async (e) => {
     e.preventDefault()
     setNumberId(numberId + 1)
     let Time = inpTime.current.value
@@ -184,10 +187,11 @@ const MyTodo = () => {
   //   console.log(hour," ",min," ",distance.getTime()+" ",distance)
   // }
 
+ 
   const remindeMe = (item) => {
+
     const timeOutSet = setTimeout(() => {
       console.log('reminder with id' + item.id)
-
       const UpdatedList2 = listItem.map((newItem, i) => {
         if (newItem.id == item.id) {
           newItem.modalClick = false
@@ -556,16 +560,27 @@ const MyTodo = () => {
                         >
                           remove
                         </button>
-                        <input
-                          className="       "
+                        <div className='relative flex flex-row items-center '>
+                           <input
+                          className=" flex flex-row items-center appearance-none checkToDO"
                           // checkToDO
                           type="checkbox"
-                          name=""
+                          name="checkbox"
                           id=""
-                          defaultChecked={item.done}
-                          ref={checkbox}
-                          onClick={() => checkBoxClick(item)}
+                          checked={item.done}
+                          
+                          onChange={() => checkBoxClick(item)}
                         />
+                        <span className='absolute  pointer-events-none'>
+                          
+                        { item.done &&<Lottie animationData={TickLottie} loop={false}   />}
+
+                        </span>
+
+                        </div>
+
+                        
+                           
                         <button
                           className="my-button  h-10 self-center"
                           onClick={() => editTodo(item)}
