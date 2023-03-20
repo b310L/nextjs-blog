@@ -239,16 +239,22 @@ const MyTodo = () => {
     setListItem(UpdatedList)
   }
 
-  const createColor=(id)=>{
-    
+  const [randColor,setRandColor] =useState('rgb(0,0,0');
+  useEffect(() => {
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min) + min);}
-
-    return`rgb(${getRandomInt(0,256)},${getRandomInt(0,256)},${getRandomInt(0,256)})`
+      const color=Math.floor(Math.random() * (max - min) + min);
+      return color;
+    }
     
-  }
+      const rgb=`rgb(${getRandomInt(0,256)},${getRandomInt(0,256)},${getRandomInt(0,256)})`;
+      
+      setRandColor(rgb);
+      console.log(randColor);
+    
+    
+  }, [...listItem.map(item => item.modalClick)])
   //return
   return (
     <div className="m-1 md:m-2 dark:bg-gray-800 " id='top'>
@@ -352,7 +358,7 @@ const MyTodo = () => {
             <div>
             
               <div
-                  style={{backgroundColor:createColor(item.id)}}
+                  style={{backgroundColor:randColor}}
                 className={`${
                   item.modalActive
                     ? `  `
