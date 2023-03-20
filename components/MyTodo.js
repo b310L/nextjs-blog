@@ -1,7 +1,8 @@
 import { tr } from 'date-fns/locale'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdExpandMore, MdOutlineCancel } from 'react-icons/md'
-import { BiUpArrowAlt } from 'react-icons/bi'
+import { BiUpArrowAlt,BiTime } from 'react-icons/bi'
+import { BsCalendarDate } from 'react-icons/bs'
 import { FaBell } from 'react-icons/fa'
 import Lottie from "lottie-react";
 import TickLottie from '../public/Lottie/Tick.json';
@@ -46,12 +47,13 @@ const MyTodo = () => {
     dateTime: new Date(),
     done: false,
     id: 0,
-    timerOut: null,
+    IntervalState:null,
+    remainingTime:null,
     modalClick: null,
     modalActive: null,
   })
   const [listItem, setListItem] = useState([ToDoItem])
-  useEffect(() => {}, [listItem])
+  // useEffect(() => {}, [listItem])
   const [numberId, setNumberId] = useState(listItem.length)
 
   const handleClickScroll = () => {
@@ -79,13 +81,14 @@ const MyTodo = () => {
       id: numberId,
       readMore: false,
       modalClick: null,
-      timerOut: null,
       modalActive: null,
+      IntervalState:null,
+      remainingTime:null,
     }
-    const updatedList = [...listItem]
-    updatedList.push(newTodo)
-    console.log('updatedList   : ' + updatedList)
-    setListItem(updatedList)
+    // const updatedList = [...listItem]
+    listItem.push(newTodo)
+    // console.log('updatedList   : ' + updatedList)
+    // setListItem(updatedList)
     inpTitle.current.value = ''
     inpText.current.value = ''
     inpTime.current.value = ''
@@ -164,64 +167,77 @@ const MyTodo = () => {
     console.log('dateTime ' + dateTime)
 
     return nowTomiliSecond - dateTimeTomiliSecond
-    // console.log('dateTimeTomiliSecond  '+dateTimeTomiliSecond);
-    // console.log('nowTomiliSecond '+nowTomiliSecond);
-    // console.log('difrence is '+(dateTimeTomiliSecond-nowTomiliSecond));
-    // var diff = endDate.getTime() - startDate.getTime();
-    // var hours = Math.floor(diff / 1000 / 60 / 60);
-    // diff -= hours * 1000 * 60 * 60;
-    // console.log(diff);
-    // return diff;
-    // var minutes = Math.floor(diff / 1000 / 60);
 
-    // If using time pickers with 24 hours format, add the below line get exact hours
-    // if (hours < 0)
-    //    hours = hours + 24;
-
-    // return (hours <= 9 ? "0" : "") + hours + ":" + (minutes <= 9 ? "0" : "") + minutes;
   }
-  // const convertToTime=(x)=>{
-  //   const hour=parseInt(x.slice(0,3));
-  //   const min=parseInt(x.slice(3));
-  //   const distance=new Date();
-  //   console.log(hour," ",min," ",distance.getTime()+" ",distance)
-  // }
 
- 
-  const remindeMe = (item) => {
+  const MilisecondConverterToMinAndSec = (millis) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    if (minutes>=0  && seconds>=0) {
+            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+    else return '00:00'
+  
+}
+const clearIntervalFn=(item)=>{
 
-    const timeOutSet = setTimeout(() => {
-      console.log('reminder with id' + item.id)
-      const UpdatedList2 = listItem.map((newItem, i) => {
-        if (newItem.id == item.id) {
-          newItem.modalClick = false
-          newItem.modalActive = true
-          return newItem
-        } 
-        return newItem
-        
-      })
-      setListItem(UpdatedList2)
-    }, diff(item))
-    const UpdatedList = listItem.map((newItem, i) => {
+}
+const startInterval=(item)=>{
+  const sTime=new Date();
+  const distanceTime=sTime-item.dateTime;
+  let dis=distanceTime;
+  const countInterval=setInterval(() => {
+    dis=dis-1000;             
+    const newIntervalState2 = listItem.map((objInterval) => {
+      if (objInterval.id == item.id) {
+        objInterval.remainingTime=dis;
+        return objInterval
+      } 
+      return objInterval;
+    })
+    setListItem(newIntervalState2)    
+    console.log('remind id= ' +item.id);
+
+    // ;
+  
+    if (dis<=0) {
+        setTimeout(() => {
+    clearInterval(countInterval)
+    const UpdatedList = listItem.map((newItem) => {
       if (newItem.id == item.id) {
-        newItem.modalClick = true
-        newItem.timerOut = timeOutSet
+        newItem.modalActive = true
+        newItem.modalClick = false
         return newItem
       } 
       return newItem
-      
-    })
+        })
     setListItem(UpdatedList)
+  }, dis);
+           }
+   }, 1000);
 
-    console.log(diff(item))
+   const newIntervalState = listItem.map((objInterval) => {
+    if (objInterval.id == item.id) {
+      objInterval.remainingTime=dis;
+      objInterval.IntervalState = countInterval;
+      objInterval.modalClick = true
+      return objInterval
+    } 
+    return objInterval;
+  })
+  setListItem(newIntervalState)
+   
+}
 
-    // return clearTimeout(timerOut);
+
+  const remindeMe = (item) => {
+    startInterval(item);
+ 
+
   }
   const cancelReminder = (item) => {
-    console.log('cancelReminder')
-    clearTimeout(item.timerOut)
-    const UpdatedList = listItem.map((newItem, i) => {
+      clearInterval(item.IntervalState)
+      const UpdatedList = listItem.map((newItem) => {
       if (newItem.id == item.id) {
         newItem.modalClick = null
         return newItem
@@ -232,7 +248,7 @@ const MyTodo = () => {
     setListItem(UpdatedList)
   }
   const exitModal = (item) => {
-    const UpdatedList = listItem.map((newItem, i) => {
+    const UpdatedList = listItem.map((newItem) => {
       if (newItem.id == item.id) {
         newItem.modalActive = false
         return newItem
@@ -262,7 +278,7 @@ const MyTodo = () => {
   //return
   return (
     <div className="m-1 md:m-2 dark:bg-gray-800 " id='top'>
-      {/* <button className="my-button" onClick={() => console.log(listItem)}>show list</button> */}
+      <button className="my-button" onClick={() => console.log(listItem)}>show list</button>
 
       <form action="" onSubmit={addTodo} className="">
         {/*  */}
@@ -280,7 +296,7 @@ const MyTodo = () => {
             />
             <label
               htmlFor="inpTitle"
-              className="absolute
+              className="absolute labelInput
                "
             >
               Type title
@@ -296,7 +312,7 @@ const MyTodo = () => {
               ref={inpText}
               required
             />
-            <label htmlFor="inpText" className="absolute">
+            <label htmlFor="inpText" className="absolute labelInput">
               Type text
             </label>
           </div>
@@ -320,7 +336,8 @@ const MyTodo = () => {
                   .substring(0, 8)
               }}
             >
-              now
+              
+              <BiTime className='text-2xl'/>
             </button>
           </div>
           <div className="flex gap-1">
@@ -342,7 +359,7 @@ const MyTodo = () => {
                   .substring(0, 10)
               }}
             >
-              now
+              <BsCalendarDate className='text-2xl'/>
             </button>
           </div>
 
@@ -356,7 +373,7 @@ const MyTodo = () => {
       {/* iran time */}
       {/* ////////////////////////////////////////////////////////////////////////////// */}
       {console.log(listItem)}
-      <ul className="lg:grid lg:grid-cols-2 lg:gap-4">
+      
         {listItem.map((item, index) => {
           return (
             <div>
@@ -390,21 +407,22 @@ const MyTodo = () => {
                   
                 </div>
               </div>
+              <ul className="">
               <li
-                className="flex items-center list-none border-2 border-gray-400 bg--500 rounded-sm p-2 text-center w-full     my-2"
+                className="flex items-center list-none border-2 border-gray-400  rounded-sm p-2 text-center w-full  my-1   "
                 key={index}
               >
                 {editing && editWithId == item.id ? (
-                  <div>
+                  <div className=' w-full   border-none transition-all   '>
                     <form
-                      className="flex flex-col my-1"
+                      className="flex flex-col  "
                       action=""
                       onSubmit={(e) => editInpTodo(e, item)}
                     >
-                      <div className="flex flex-col mx-2">
-                        <label htmlFor="editTitle">Title:</label>
+                      <div className="flex flex-row items-center ">
+                        <label htmlFor="editTitle" className='  text-gray-500 mr-1'>Title:</label>
                         <input
-                          className="text-center"
+                          className="text-center w-full my-0 my-button border-0 "
                           ref={inpEditTitle}
                           type="text"
                           name=""
@@ -414,10 +432,10 @@ const MyTodo = () => {
                           maxLength={40}
                         />
                       </div>
-                      <div className="flex flex-col m-2 ">
-                        <label htmlFor="editText">Text:</label>
+                      <div className="flex flex-row items-center ">
+                        <label htmlFor="editText" className=' text-gray-500 mr-[5.5px]'>Text:</label>
                         <textarea
-                          className="w-full   "
+                          className="w-full my-button border-0   my-1"
                           ref={inpEditText}
                           type="text"
                           name=""
@@ -427,10 +445,12 @@ const MyTodo = () => {
                         />
                       </div>
 
-                      <div className=" my-1 flex flex-row justify-between mx-2">
-                        <label htmlFor="editTime">Time</label>
+                      <div className=" flex flex-row  mb-1 justify-around">
+                        <div className='flex flex-row items-center my-2'>
+                          <label htmlFor="editTime" className='   text-gray-500  '>Time:</label>
                         {console.log(item.time)}
                         <input
+                        className='my-0 my-button border-0' 
                           ref={inpEditTime}
                           type="time"
                           step={1}
@@ -438,27 +458,8 @@ const MyTodo = () => {
                           defaultValue={item.time}
                           id="editTime"
                         />
-                        <label htmlFor="editDate">Date</label>
-                        <input
-                          ref={inpEditDate}
-                          type="date"
-                          name=""
-                          defaultValue={item.date}
-                          id="editDate"
-                        />
-                      </div>
-
-                      <button type="submit" className="my-button my-1">
-                        save
-                      </button>
-                      <button
-                        className="my-button"
-                        onClick={() => setEditing(false)}
-                      >
-                        cancel{' '}
-                      </button>
-                      <button
-                        className="my-button "
+                        <button
+                        className="my-button border-0  h-full px-1 ml-1"
                         onClick={(e) => {
                           e.preventDefault()
                           inpEditTime.current.value = new Date()
@@ -466,11 +467,23 @@ const MyTodo = () => {
                             .substring(0, 8)
                         }}
                       >
-                        set time to now
+                      <BiTime className='text-2xl'/>
                       </button>
-                      {/* {new Date().toISOString().substring(0, 11)} */}
-                      <button
-                        className="my-button"
+                        </div>
+                        
+                        <div className='flex flex-row items-center my-2'>
+
+                          <label htmlFor="editDate" className='text-gray-500 '>Date:</label>
+                        <input
+                        className='my-0 my-button border-0 mr-1'
+                          ref={inpEditDate}
+                          type="date"
+                          name=""
+                          defaultValue={item.date}
+                          id="editDate"
+                        />
+                          <button
+                        className="my-button h-full px-1"
                         onClick={(e) => {
                           e.preventDefault()
                           inpEditDate.current.value = new Date()
@@ -478,16 +491,34 @@ const MyTodo = () => {
                             .substring(0, 10)
                         }}
                       >
-                        set time to date
+                        <BsCalendarDate className='text-2xl'/>
                       </button>
+                        </div>
+                      </div>
+                      
+                        <div className='flex flex-row justify-evenly'>
+                        <button type="submit" className="my-button w-1/6 py-2 ">
+                        save
+                      </button>
+                      <button
+                        className="my-button w-1/6 py-2 "
+                        onClick={() => setEditing(false)}
+                      >
+                        cancel{' '}
+                      </button>
+                      
+                      {/* {new Date().toISOString().substring(0, 11)} */}
+                    
+                        </div>
+                      
                     </form>
                   </div>
                 ) : (
                   <div
-                    className={
+                    className={ 
                       item.done
-                        ? ' rounded-t-none w-full items-center  backdrop-blur-sm border-none grayscale transition-all duration-1000'
-                        : 'rounded-t-none  items-end w-full  backdrop-blur-sm border-none transition-all duration-700 '
+                        ? 'h-50 rounded-t-none w-full items-center  backdrop-blur-sm border-none grayscale transition-all duration-1000'
+                        : 'h-50 rounded-t-none  items-end w-full  backdrop-blur-sm border-none transition-all duration-700 '
                     }
                   >
                     {/* {<h1 className="font-bold">{item.done ? "done" : "unDone"}</h1>} */}
@@ -535,7 +566,7 @@ const MyTodo = () => {
                         {item.modalClick == null && ''}
                         {item.modalClick == true && (
                           <div className="self-center flex h-full  ">
-                            <span className="ml-2">running...</span>
+                            <span className="ml-2">{item.remainingTime}</span>
                             <MdOutlineCancel
                               onClick={() => cancelReminder(item)}
                               className="self-center ml-1 text-2xl  text-red-600 hover:text-red-700"
@@ -546,16 +577,13 @@ const MyTodo = () => {
                       </span>
                     </div>
                     <div></div>
-                    {editing ? (
-                      <></>
-                    ) : (
-                      <div
+                    <div
                         className={
                           'rounded-t-none   -m-2 flex flex-row justify-evenly'
                         }
                       >
                         <button
-                          className="my-button  h-10 self-center"
+                          className="my-button  p-2 self-center w-1/6"
                           onClick={() => removeTodo(item.id)}
                         >
                           remove
@@ -582,20 +610,20 @@ const MyTodo = () => {
                         
                            
                         <button
-                          className="my-button  h-10 self-center"
+                          className="my-button  self-center w-1/6 p-2"
                           onClick={() => editTodo(item)}
                         >
                           edit
                         </button>
                       </div>
-                    )}
                   </div>
                 )}
               </li>
+              </ul>
             </div>
           )
         })}
-      </ul>
+      
     {offset>20 &&
       <BiUpArrowAlt className='my-button p-2  text-4xl h-fit w-fit text-white sticky bottom-0' onClick={handleClickScroll}/>    
     }

@@ -122,7 +122,7 @@
 // }
     }
     textarea{
-      @apply rounded-sm border-[1.9px] border-gray-400   focus:border-pink-500
+      @apply rounded-sm  border-gray-400   focus:border-pink-500
     }
 
   //   
@@ -144,7 +144,7 @@
     // after:checked:bg-white 
     //  
     
-    label{
+    .labelInput{
        
        @apply   focus:font-normal 
        duration-300 text-sm font-normal 
