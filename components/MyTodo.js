@@ -410,7 +410,7 @@ const startInterval=(item)=>{
               <ul className="">
               <li
                 className="flex items-center list-none border-2 border-gray-400  rounded-sm p-2 text-center w-full  my-1   "
-                key={index}
+                key={item.id}
               >
                 {editing && editWithId == item.id ? (
                   <div className=' w-full   border-none transition-all   '>
